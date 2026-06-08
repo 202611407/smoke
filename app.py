@@ -213,10 +213,11 @@ if st.button("🔍 군집 분석하기"):
 
     # 범례
     from matplotlib.patches import Patch
-    legend_elements = [
-        Patch(facecolor='#4caf50', label='0: 매우 건강군'),
-        Patch(facecolor='#ffc107', label='2: 건강군'),
-        Patch(facecolor='#e91e63', label='1: 위험군'),
+   legend_elements = [
+    Patch(facecolor='#4caf50', label='0: Very Healthy'),
+    Patch(facecolor='#ffc107', label='2: Healthy'),
+    Patch(facecolor='#e91e63', label='1: High Risk'),
+]
     ]
     ax.legend(handles=legend_elements, loc='upper left', fontsize=8,
               framealpha=0.6, facecolor='white')
