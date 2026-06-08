@@ -65,3 +65,4 @@ ax.set_title('폐암 환자 군집 분석')
 ax.grid(True, linestyle='--', alpha=0.3)
 
 st.pyplot(fig)
+kmeans, scaler, df, label_map = train_model()
