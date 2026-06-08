@@ -3,14 +3,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-font_list = [f.name for f in fm.fontManager.ttflist]
-
-if 'Malgun Gothic' in font_list:
-    plt.rcParams['font.family'] = 'Malgun Gothic'
-elif 'NanumGothic' in font_list:
-    plt.rcParams['font.family'] = 'NanumGothic'
-
-plt.rcParams['axes.unicode_minus'] = False
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import warnings
