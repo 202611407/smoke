@@ -1,3 +1,4 @@
+import streamlit as st
 # ── 산점도 시각화 ──────────────────────────────────────────
 st.markdown(
     '<p class="section-header" style="margin-top:1.5rem;">📊 군집 시각화</p>',
