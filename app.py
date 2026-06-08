@@ -5,11 +5,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 전체 데이터에 군집 라벨 부여
-X_all = df[['age', 'smoking', 'alcohol']].values
-X_all_scaled = scaler.transform(X_all)
-raw_labels = kmeans.predict(X_all_scaled)
-df['cluster'] = [label_map.get(l, l) for l in raw_labels]
+
 
 color_map = {
     0: "#4caf50",  # 매우 건강군
