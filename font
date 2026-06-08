@@ -1,0 +1,13 @@
+plt.rcParams['font.family'] = 'Malgun Gothic'
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+
+# 사용 가능한 한글 폰트 찾기
+font_list = [f.name for f in fm.fontManager.ttflist]
+
+if 'Malgun Gothic' in font_list:
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+elif 'NanumGothic' in font_list:
+    plt.rcParams['font.family'] = 'NanumGothic'
+
+plt.rcParams['axes.unicode_minus'] = False
