@@ -12,7 +12,7 @@ plt.rcParams['axes.unicode_minus'] = False
 # ==========================
 # 모델 불러오기
 # ==========================
-model = joblib.load("model.pkl")
+model = joblib.load("lung_cancer_model.pkl")
 scaler = joblib.load("scaler.pkl")
 
 # ==========================
