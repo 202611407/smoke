@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 # ==========================
 # 한글 깨짐 방지
 # ==========================
+plt.rcParams['font.family'] = 'NanumGothic'
 plt.rcParams['axes.unicode_minus'] = False
 
 # ==========================
