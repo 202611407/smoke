@@ -1,64 +1,94 @@
 import streamlit as st
-# ── 산점도 시각화 ──────────────────────────────────────────
-st.markdown(
-    '<p class="section-header" style="margin-top:1.5rem;">📊 군집 시각화</p>',
-    unsafe_allow_html=True
+import pandas as pd
+import joblib
+import matplotlib.pyplot as plt
+
+# ==========================
+# 한글 깨짐 방지
+# ==========================
+plt.rcParams['font.family'] = 'Malgun Gothic'
+plt.rcParams['axes.unicode_minus'] = False
+
+# ==========================
+# 모델 불러오기
+# ==========================
+model = joblib.load("model.pkl")
+scaler = joblib.load("scaler.pkl")
+
+# ==========================
+# 화면 제목
+# ==========================
+st.title("폐암 환자 군집 분류 시스템")
+st.write("환자 정보를 입력하면 군집을 예측합니다.")
+
+# ==========================
+# 사용자 입력
+# ==========================
+patient_age = st.number_input(
+    "나이",
+    min_value=0.0,
+    max_value=120.0,
+    value=50.0
 )
 
-
-
-color_map = {
-    0: "#4caf50",  # 매우 건강군
-    1: "#e91e63",  # 위험군
-    2: "#ffc107"   # 건강군
-}
-
-cluster_colors = df['cluster'].map(color_map)
-
-fig, ax = plt.subplots(figsize=(8, 6))
-
-# 전체 환자 데이터
-ax.scatter(
-    df['smoking'],
-    df['alcohol'],
-    c=cluster_colors,
-    alpha=0.7,
-    s=60,
-    edgecolors='white',
-    linewidths=0.5
+patient_air_quality = st.number_input(
+    "공기질",
+    min_value=0.0,
+    value=50.0
 )
 
-# 현재 입력 환자
-ax.scatter(
-    smoking,
-    alcohol,
-    marker='*',
-    s=300,
-    color='blue',
-    edgecolors='white',
-    linewidths=1,
-    label='현재 환자'
+patient_smoking = st.number_input(
+    "흡연량",
+    min_value=0.0,
+    value=10.0
 )
 
-# 범례
-from matplotlib.patches import Patch
+# ==========================
+# 예측 버튼
+# ==========================
+if st.button("군집 예측"):
 
-legend_elements = [
-    Patch(facecolor='#4caf50', label='0번 : 매우 건강군'),
-    Patch(facecolor='#ffc107', label='2번 : 건강군'),
-    Patch(facecolor='#e91e63', label='1번 : 위험군')
-]
+    new_patient = pd.DataFrame(
+        [[patient_age, patient_air_quality, patient_smoking]],
+        columns=["나이", "공기질", "흡연량"]
+    )
 
-ax.legend(
-    handles=legend_elements,
-    loc='upper left'
-)
+    # 스케일링
+    new_patient_scaled = scaler.transform(new_patient)
 
-ax.set_xlabel('흡연량')
-ax.set_ylabel('음주량')
-ax.set_title('폐암 환자 군집 분석')
+    # 군집 예측
+    pred_cluster = model.predict(new_patient_scaled)
 
-ax.grid(True, linestyle='--', alpha=0.3)
+    cluster_num = int(pred_cluster[0])
 
-st.pyplot(fig)
-kmeans, scaler, df, label_map = train_model()
+    st.success(
+        f"이 환자는 {cluster_num}번 군집에 속합니다."
+    )
+
+    # ==========================
+    # 군집별 색상
+    # ==========================
+    cluster_colors = {
+        0: "red",
+        1: "blue",
+        2: "green",
+        3: "pink"
+    }
+
+    # ==========================
+    # 그래프 생성
+    # ==========================
+    fig, ax = plt.subplots(figsize=(8, 6))
+
+    ax.scatter(
+        patient_age,
+        patient_smoking,
+        color=cluster_colors.get(cluster_num, "black"),
+        s=300
+    )
+
+    ax.set_xlabel("나이")
+    ax.set_ylabel("흡연량")
+    ax.set_title("폐암 환자 군집 분석")
+
+    st.pyplot(fig)
