@@ -1,3 +1,16 @@
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+
+font_path = "NanumGothic.ttf"
+
+fm.fontManager.addfont(font_path)
+
+plt.rcParams['font.family'] = fm.FontProperties(
+    fname=font_path
+).get_name()
+
+plt.rcParams['axes.unicode_minus'] = False
+
 import streamlit as st
 import pandas as pd
 import joblib
